@@ -7,16 +7,17 @@
     <title>Sistema</title>
 </head>
 <body>
+    <script src="./three.js"></script>
+    <script src="./orbitcontrols.js"></script>
     <script type="module">
-        import * as THREE from 'three.js';
-        import { OrbitControls } from './orbitcontrols.js';
-    
+
         // ----------------- Inicializar -----------------
+
         //Crear Escena y Definir Fondo
         var Escena = new THREE.Scene(); //Crear Escena
         var CTexturaFondo = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaFondo.crossOrigin = "Anonymous"
-        CTexturaFondo.load('./ViaLactea.jpg', function (TexturaFondo) { //Cargamos Textura
+        CTexturaFondo.crossOrigin = "Anonymous";
+        CTexturaFondo.load('Texturas/ViaLactea.jpg', function (TexturaFondo) { //Cargamos Textura
             Escena.background = TexturaFondo; //Definimos Textura
         });
 
@@ -24,7 +25,6 @@
         var Camara = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight);
         Camara.position.z=1500;//1000//400//50
         Camara.position.x=1600;//1600//700//750
-
 
         //Crear Render
         var Render = new THREE.WebGLRenderer();
@@ -35,168 +35,98 @@
         const luzSolar = new THREE.PointLight(0xFFFFFF,2,4000);
         Escena.add(luzSolar);
 
-
-
-
         // ----------------- End Init -----------------
         
-        
-        //Codigo del Sol
-        var materialSol = new THREE.MeshBasicMaterial(); //Ponemos la textura como material
-        var CTexturaSol = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaSol.load('./Sol.jpg', (TexturaSol)=>{//Carga la textura que le digamos
-            materialSol.map = TexturaSol //Definimos Textura
-        });
-        
-        var sol = new THREE.Mesh( new THREE.SphereGeometry(695), materialSol);//Creamos el Sol
 
+        //Codigo del Sol
+        var sol = new THREE.Mesh( new THREE.SphereGeometry(695), 
+            new THREE.MeshBasicMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Sol.jpg')}));
         sol.position.x = 0;
 
         
         //Codigo de Mercurio
-        var materialMercurio = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaMercurio = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaMercurio.load('./Mercurio.jpg', (TexturaMercurio)=>{//Carga la textura que le digamos
-            materialMercurio.map =TexturaMercurio //Definimos Textura
-        });
-
-        var mercurio = new THREE.Mesh(new THREE.SphereGeometry(2.4), materialMercurio);//Creamos Mercurio
+        var mercurio = new THREE.Mesh(new THREE.SphereGeometry(2.4), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Mercurio.jpg')}));
         
-        var posicionMercurioX= 728.5;
-        var posicionMercurioY= 0;
-        mercurio.position.x= posicionMercurioX;
-        mercurio.position.y= posicionMercurioY;
+        mercurio.position.x= 728.5;
+        mercurio.position.y= 0;
 
         //Codigo de Venus
-        var materialVenus = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaVenus = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaVenus.load('./Venus.jpg', (TexturaVenus)=>{//Carga la textura que le digamos
-            materialVenus.map =TexturaVenus //Definimos Textura
-        });
+        var venus = new THREE.Mesh(new THREE.SphereGeometry(6), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Venus.jpg')}));
 
-        var venus = new THREE.Mesh(new THREE.SphereGeometry(6), materialVenus);//Creamos Venus
-        
-        var posicionVenusX= 754;
-        var posicionVenusY= 0;
-        venus.position.x= posicionVenusX;
-        venus.position.y= posicionVenusY;
+        venus.position.x = 754;
+        venus.position.y = 0;
 
         //Codigo de Marte
-        var materialMarte = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaMarte = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaMarte.load('./Marte.jpg', (TexturaMarte)=>{//Carga la textura que le digamos
-            materialMarte.map =TexturaMarte //Definimos Textura
-        });
+        var marte = new THREE.Mesh(new THREE.SphereGeometry(3.3), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Marte.jpg')}));
 
-        var marte = new THREE.Mesh(new THREE.SphereGeometry(3.3), materialMarte);//Creamos Marte
-        
-        var posicionMarteX= 813.5;
-        var posicionMarteY= 0;
-        marte.position.x= posicionMarteX;
-        marte.position.y= posicionMarteY;
+        marte.position.x = 813.5;
+        marte.position.y = 0;
 
         //Codigo de Jupiter
-        var materialJupiter = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaJupiter = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaJupiter.load('./Jupiter.jpg', (TexturaJupiter)=>{//Carga la textura que le digamos
-            materialJupiter.map =TexturaJupiter //Definimos Textura
-        });
-
-        var jupiter = new THREE.Mesh(new THREE.SphereGeometry(71), materialJupiter);//Creamos Jupiter
-        
-        var posicionJupiterX= 1089.0;
-        var posicionJupiterY= 0;
-        jupiter.position.x= posicionJupiterX;
-        jupiter.position.y= posicionJupiterY;
+        var jupiter = new THREE.Mesh(new THREE.SphereGeometry(71), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Jupiter.jpg')}));
+    
+        jupiter.position.x = 1089.0;
+        jupiter.position.y = 0;
 
         //Codigo de Saturno
-        var materialSaturno = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaSaturno = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaSaturno.load('./Saturno.jpg', (TexturaSaturno)=>{//Carga la textura que le digamos
-            materialSaturno.map =TexturaSaturno //Definimos Textura
-        });
+        var saturno = new THREE.Mesh(new THREE.SphereGeometry(60), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Saturno.jpg')}));
 
-        var saturno = new THREE.Mesh(new THREE.SphereGeometry(60), materialSaturno);//Creamos Saturno
-        
-        var posicionSaturnoX= 1414.5;
-        var posicionSaturnoY= 0;
-        saturno.position.x= posicionSaturnoX;
-        saturno.position.y= posicionSaturnoY;
+        saturno.position.x = 1414.5;
+        saturno.position.y = 0;
 
         //Codigo de la Anillo Saturno
-        var materialAnilloSaturno = new THREE.MeshBasicMaterial(); //Ponemos la textura como material
-        var CTexturaAnilloSaturno = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaAnilloSaturno.load('./AnilloSaturno.png', (TexturaAnilloSaturno)=>{//Carga la textura que le digamos
-            materialAnilloSaturno.map =TexturaAnilloSaturno //Definimos Textura
-            
-        });
+        var anilloSaturno = new THREE.Mesh(new THREE.RingGeometry(65,110,64), 
+            new THREE.MeshBasicMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/AnilloSaturno.png')}));
 
-        var anilloSaturno = new THREE.Mesh(new THREE.RingGeometry(65,110,64), materialAnilloSaturno);//Creamos el Anillo
-        var posicionAnilloSaturnoX=0;
-        var posicionAnilloSaturnoY=0;
-        anilloSaturno.position.x=posicionAnilloSaturnoX;
-        anilloSaturno.position.y=posicionAnilloSaturnoY;
+        anilloSaturno.position.x = 0;
+        anilloSaturno.position.y = 0;
   
         anilloSaturno.rotation.x =-.4*Math.PI;
 
         //Codigo de Urano
-        var materialUrano = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaUrano = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaUrano.load('./Urano.jpg', (TexturaUrano)=>{//Carga la textura que le digamos
-            materialUrano.map =TexturaUrano //Definimos Textura
-        });
+        var urano = new THREE.Mesh(new THREE.SphereGeometry(25), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Urano.jpg')}));
 
-        var urano = new THREE.Mesh(new THREE.SphereGeometry(25), materialUrano);//Creamos Urano
-        
-        var posicionUranoX= 2135;
-        var posicionUranoY= 0;
-        urano.position.x= posicionUranoX;
-        urano.position.y= posicionUranoY;
+        urano.position.x= 2135;
+        urano.position.y= 0;
 
         //Codigo de Neptuno
-        var materialNeptuno = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaNeptuno = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaNeptuno.load('./Neptuno.jpg', (TexturaNeptuno)=>{//Carga la textura que le digamos
-            materialNeptuno.map =TexturaNeptuno //Definimos Textura
-        });
+        var neptuno = new THREE.Mesh(new THREE.SphereGeometry(24), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Neptuno.jpg')}));
 
-        var neptuno = new THREE.Mesh(new THREE.SphereGeometry(24), materialNeptuno);//Creamos Neptuno
-        
-        var posicionNeptunoX= 2952;
-        var posicionNeptunoY= 0;
-        neptuno.position.x= posicionNeptunoX;
-        neptuno.position.y= posicionNeptunoY;
+        neptuno.position.x = 2952;
+        neptuno.position.y = 0;
 
         //Codigo de la Tierra
-        var materialTierra = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaTierra = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaTierra.load('./Tierra.jpg', (TexturaTierra)=>{//Carga la textura que le digamos
-            materialTierra.map =TexturaTierra //Definimos Textura
-            Animacion();
-        });
+        var tierra =new THREE.Mesh(new THREE.SphereGeometry(6.3), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Tierra.jpg')}));
 
-        var radioTierra=6.3;
-        var tierra = new THREE.Mesh(new THREE.SphereGeometry(radioTierra,32,16,0,Math.PI*2,Math.PI*2,Math.PI), materialTierra);//Creamos la Tierra
-        
-        var posicionTierraX= 774.0;
-        var posicionTierraY= 0;
-        tierra.position.x= posicionTierraX;
-        tierra.position.y= posicionTierraY;
+        tierra.position.x = 774.0;
+        tierra.position.y = 0;
         
 
         //Codigo de la Luna
-        var materialLuna = new THREE.MeshStandardMaterial(); //Ponemos la textura como material
-        var CTexturaLuna = new THREE.TextureLoader(); //Creamos Cargador
-        CTexturaLuna.load('./Luna.jpg', (TexturaLuna)=>{//Carga la textura que le digamos
-            materialLuna.map =TexturaLuna //Definimos Textura
-            
-        });
+        var luna = new THREE.Mesh(new THREE.SphereGeometry(1.7), 
+            new THREE.MeshStandardMaterial(
+                {map : new THREE.TextureLoader().load('Texturas/Luna.jpg')}));
 
-        var luna = new THREE.Mesh(new THREE.SphereGeometry(1.7), materialLuna);//Creamos la Luna
-        var posicionLunaX=10;
-        var posicionLunaY=4;
-        luna.position.x=posicionLunaX;
-        luna.position.y=posicionLunaY;
+        luna.position.x = 10;
+        luna.position.y = 0;
 
 
         // ----------------- Start Animation -----------------
@@ -204,12 +134,13 @@
         Escena.add(sol);// Añadimos el Sol
         Escena.add(mercurio);// Añadimos Mercurio
         Escena.add(venus);// Añadimos Venus
-        Escena.add(tierra);// Añadimos la Tierra
         tierra.add(luna);
+        Escena.add(tierra);// Añadimos la Tierra
+        
         Escena.add(marte);// Añadimos Marte
         Escena.add(jupiter);// Añadimos Jupiter
-        Escena.add(saturno);// Añadimos Saturno
         saturno.add(anilloSaturno);//Añadimos Anillo
+        Escena.add(saturno);// Añadimos Saturno
         Escena.add(urano);// Añadimos Urano
         Escena.add(neptuno);// Añadimos Neptuno
        
@@ -227,13 +158,12 @@
             anilloSaturno.rotateY(.01);//Se mueve Horizontalmente
             urano.rotation.y +=0.01;//Se mueve Horizontalmente
             neptuno.rotation.y +=0.01;//Se mueve Horizontalmente
-  
             
             Render.render(Escena,Camara);//Se crea Render
         }
 
-      
-
+        Animacion()
+    
        
         // ----------------- End Animation -----------------
 
