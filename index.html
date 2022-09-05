@@ -31,9 +31,9 @@
         document.body.appendChild(Render.domElement);
 
         //Controles Camara
-        //var controles = new OrbitControls(Camara, Render.domElement);
-        //controles.minDistance = 5;
-        //controles.maxDistance = 3000;
+        var controles = new OrbitControls(Camara, Render.domElement);
+        controles.minDistance = 5;
+        controles.maxDistance = 3000;
 
         //Crear Luz
         const luzSolar = new THREE.PointLight(0xFFFFFF,2,4000);
