@@ -8,13 +8,14 @@
 </head>
 <body>
     <script type="module">
-        import * as THREE from './three.js  ';
+        import * as THREE from 'three.js';
         import { OrbitControls } from './orbitcontrols.js';
     
         // ----------------- Inicializar -----------------
         //Crear Escena y Definir Fondo
         var Escena = new THREE.Scene(); //Crear Escena
         var CTexturaFondo = new THREE.TextureLoader(); //Creamos Cargador
+        CTexturaFondo.crossOrigin = "Anonymous"
         CTexturaFondo.load('./ViaLactea.jpg', function (TexturaFondo) { //Cargamos Textura
             Escena.background = TexturaFondo; //Definimos Textura
         });
