@@ -7,9 +7,7 @@
     <title>Sistema</title>
 </head>
 <body>
-    
     <script type="module">
-        // <script src="./three.js">
         import * as THREE from './three.module.js';
         import { OrbitControls } from './orbitcontrols.js';
         // ----------------- Inicializar -----------------
@@ -24,13 +22,18 @@
 
         //Crear camara
         var Camara = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight);
-        Camara.position.z=1500;//1000//400//50
+        Camara.position.z=1000;//1000//400//50
         Camara.position.x=1600;//1600//700//750
 
         //Crear Render
         var Render = new THREE.WebGLRenderer();
         Render.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(Render.domElement);
+
+        //Controles Camara
+        //var controles = new OrbitControls(Camara, Render.domElement);
+        //controles.minDistance = 5;
+        //controles.maxDistance = 3000;
 
         //Crear Luz
         const luzSolar = new THREE.PointLight(0xFFFFFF,2,4000);
@@ -117,7 +120,7 @@
             new THREE.MeshStandardMaterial(
                 {map : new THREE.TextureLoader().load('Texturas/Tierra.jpg')}));
 
-        tierra.position.x = 774.0;
+        tierra.position.x = 776;
         tierra.position.y = 0;
         
 
@@ -137,28 +140,73 @@
         Escena.add(venus);// Añadimos Venus
         tierra.add(luna);
         Escena.add(tierra);// Añadimos la Tierra
-        
         Escena.add(marte);// Añadimos Marte
         Escena.add(jupiter);// Añadimos Jupiter
         saturno.add(anilloSaturno);//Añadimos Anillo
         Escena.add(saturno);// Añadimos Saturno
         Escena.add(urano);// Añadimos Urano
         Escena.add(neptuno);// Añadimos Neptuno
+
+        //Velocidades de Traslacion 
+        var VelocidadMercurio=0;
+        var VelocidadVenus=0;
+        var VelocidadTierra=0;
+        var VelocidadMarte=0;
+        var VelocidadJupiter=0;
+        var VelocidadSaturno=0;
+        var VelocidadUrano=0;
+        var VelocidadNeptuno=0;
        
 
         function Animacion(){//Animacion
+           
+            //Animacion y Velocidades de Rotaciones
+            sol.rotation.y +=0.00039;
+            mercurio.rotation.y +=0.00017;
+            venus.rotation.y +=0.000041;
+            tierra.rotateY(0.01);
+            luna.rotateY(0.00036);
+            marte.rotation.y +=0.0097;
+            jupiter.rotation.y +=0.024;
+            saturno.rotateY(0.022);
+            anilloSaturno.rotateY(.022);
+            urano.rotation.y +=0.0138;
+            neptuno.rotation.y +=0.0149;
+
+            //Animacion y Velocidades de Traslaciones
+            VelocidadMercurio+=0.0416;
+            mercurio.position.x=Math.cos(VelocidadMercurio)*728.5;
+            mercurio.position.y=Math.sin(VelocidadMercurio)*728.5;
+
+            VelocidadVenus+=0.0161;
+            venus.position.x=Math.cos(VelocidadVenus)*754;
+            venus.position.y=Math.sin(VelocidadVenus)*754;
+
+            VelocidadTierra+=0.01;
+            tierra.position.x=Math.cos(VelocidadTierra)*774.5;
+            tierra.position.y=Math.sin(VelocidadTierra)*776;
+
+            VelocidadMarte+=0.0053;
+            marte.position.x=Math.cos(VelocidadMarte)*813.5;
+            marte.position.y=Math.sin(VelocidadMarte)*813.5;
+
+            VelocidadJupiter+=0.00084;
+            jupiter.position.x=Math.cos(VelocidadJupiter)*1089;
+            jupiter.position.y=Math.sin(VelocidadJupiter)*1089;
+
+            VelocidadSaturno+=0.00033;
+            saturno.position.x=Math.cos(VelocidadSaturno)*1414.5;
+            saturno.position.y=Math.sin(VelocidadSaturno)*1414.5;
+
+            VelocidadUrano+=0.00011;
+            urano.position.x=Math.cos(VelocidadUrano)*2135;
+            urano.position.y=Math.sin(VelocidadUrano)*2135;
+
+            VelocidadNeptuno+=0.00006;
+            neptuno.position.x=Math.cos(VelocidadNeptuno)*2952;
+            neptuno.position.y=Math.sin(VelocidadNeptuno)*2952;
+
             requestAnimationFrame(Animacion);//Creamos el Frame
-            sol.rotation.y +=0.001;//Se mueve Horizontalmente
-            mercurio.rotation.y +=0.01;//Se mueve Horizontalmente
-            venus.rotation.y +=0.001;//Se mueve Horizontalmente
-            tierra.rotateY(0.01);//Se mueve Horizontalmente
-            luna.rotateY(1.01);//Se mueve Horizontalmente
-            marte.rotation.y +=0.001;//Se mueve Horizontalmente
-            jupiter.rotation.y +=0.01;//Se mueve Horizontalmente
-            saturno.rotateY(0.01);//Se mueve Horizontalmente
-            anilloSaturno.rotateY(.01);//Se mueve Horizontalmente
-            urano.rotation.y +=0.01;//Se mueve Horizontalmente
-            neptuno.rotation.y +=0.01;//Se mueve Horizontalmente
             
             Render.render(Escena,Camara);//Se crea Render
         }
