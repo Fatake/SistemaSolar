@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema</title>
+    <title>E1_Hernandez_Flores_Juan_Pablo</title>
 </head>
-<body>
+<body> 
     <script type="module">
+        // <script src="./three.js">
         import * as THREE from './three.module.js';
         import { OrbitControls } from './orbitcontrols.js';
+        //Notas: 
+            //1.- Para poder ejecutar correctamente se uso la extension de Visual Code"Live Server"
+            // Falla al ejecutar directo debido a que las texturas son locales
+            //2.- La camara por Default es fija viendo a la mitad derecha del sistema solar
+            //3.- Se pueden usar los orbits controls , solo hay que desbloquearlos (linea 42)
+            //4.- En la funcion animacion estan bloqueadas lineas para que la camara siga a la tierra (linea 191)
+            //5.- Se anexan videos de las 3 camaras en caso de no poder ejecutar
+
         // ----------------- Inicializar -----------------
 
         //Crear Escena y Definir Fondo
@@ -24,16 +33,16 @@
         var Camara = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight);
         Camara.position.z=1000;//1000//400//50
         Camara.position.x=1600;//1600//700//750
-
+        
         //Crear Render
         var Render = new THREE.WebGLRenderer();
         Render.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(Render.domElement);
 
-        //Controles Camara
-        var controles = new OrbitControls(Camara, Render.domElement);
-        controles.minDistance = 5;
-        controles.maxDistance = 3000;
+        //Controles Camara(Desactivados)
+        //var controles = new OrbitControls(Camara, Render.domElement);
+        //controles.minDistance = 5;
+        //controles.maxDistance = 3000;
 
         //Crear Luz
         const luzSolar = new THREE.PointLight(0xFFFFFF,2,4000);
@@ -41,13 +50,11 @@
 
         // ----------------- End Init -----------------
         
-
         //Codigo del Sol
         var sol = new THREE.Mesh( new THREE.SphereGeometry(695), 
             new THREE.MeshBasicMaterial(
                 {map : new THREE.TextureLoader().load('Texturas/Sol.jpg')}));
         sol.position.x = 0;
-
         
         //Codigo de Mercurio
         var mercurio = new THREE.Mesh(new THREE.SphereGeometry(2.4), 
@@ -90,14 +97,13 @@
         saturno.position.y = 0;
 
         //Codigo de la Anillo Saturno
-        var anilloSaturno = new THREE.Mesh(new THREE.RingGeometry(65,110,64), 
-            new THREE.MeshBasicMaterial(
+        var anilloSaturno = new THREE.Mesh(new THREE.TorusGeometry(80,10,16,200), 
+            new THREE.MeshStandardMaterial(
                 {map : new THREE.TextureLoader().load('Texturas/AnilloSaturno.png')}));
 
         anilloSaturno.position.x = 0;
         anilloSaturno.position.y = 0;
-  
-        anilloSaturno.rotation.x =-.4*Math.PI;
+        anilloSaturno.rotation.x =.5*Math.PI;
 
         //Codigo de Urano
         var urano = new THREE.Mesh(new THREE.SphereGeometry(25), 
@@ -123,7 +129,6 @@
         tierra.position.x = 776;
         tierra.position.y = 0;
         
-
         //Codigo de la Luna
         var luna = new THREE.Mesh(new THREE.SphereGeometry(1.7), 
             new THREE.MeshStandardMaterial(
@@ -132,13 +137,12 @@
         luna.position.x = 10;
         luna.position.y = 0;
 
-
         // ----------------- Start Animation -----------------
         
         Escena.add(sol);// Añadimos el Sol
         Escena.add(mercurio);// Añadimos Mercurio
         Escena.add(venus);// Añadimos Venus
-        tierra.add(luna);
+        tierra.add(luna); //Añadimos la Luna
         Escena.add(tierra);// Añadimos la Tierra
         Escena.add(marte);// Añadimos Marte
         Escena.add(jupiter);// Añadimos Jupiter
@@ -169,7 +173,6 @@
             marte.rotation.y +=0.0097;
             jupiter.rotation.y +=0.024;
             saturno.rotateY(0.022);
-            anilloSaturno.rotateY(.022);
             urano.rotation.y +=0.0138;
             neptuno.rotation.y +=0.0149;
 
@@ -183,8 +186,11 @@
             venus.position.y=Math.sin(VelocidadVenus)*754;
 
             VelocidadTierra+=0.01;
-            tierra.position.x=Math.cos(VelocidadTierra)*774.5;
-            tierra.position.y=Math.sin(VelocidadTierra)*776;
+            tierra.position.x=Math.cos(VelocidadTierra)*774.5;//Perihelio
+            tierra.position.y=Math.sin(VelocidadTierra)*776;//Afelio
+            //Camara.position.x= tierra.position.x;
+            //Camara.position.y= tierra.position.y;
+            //Camara.position.z=100;
 
             VelocidadMarte+=0.0053;
             marte.position.x=Math.cos(VelocidadMarte)*813.5;
@@ -212,10 +218,7 @@
         }
 
         Animacion()
-    
-       
         // ----------------- End Animation -----------------
-
 
     </script>
 
